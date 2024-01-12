@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://www.desmos.com/api/v1.8/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <label for="point1">Input values for points with x=0, 1, 2 etc</label>
+    <input type="text" id="point1" placeholder="e.g., 2, 3"><br>
+    
+    <div id="calculator" style="width: 700px; height: 400px;"></div>
+    <button onclick="generateGraph()">Control the Graph</button>
+    <p id="equationLabel"></p>
+  </div>
+
+  <script>
+  	alert('This was inspired by a YouTube video...')
+  	var elt = document.getElementById('calculator');
+    var calculator = Desmos.GraphingCalculator(elt);
+    function generateGraph() {
+    let exesreal = [];
+      const point1Input = document.getElementById('point1').value;
+      let exes = point1Input.split(',').map(coord => parseFloat(coord));
+      	let yreal = point1Input.split(',').map(coord => parseFloat(coord));
+      for (i=exes.length-1;i>=0;i--){exesreal.unshift(i)};
+  	let a=exes[0]+'';
+      for (i=1;i<exes.length;i++){
+      	for (j=exes.length-1;j>=i;j--){
+      console.log(exes)
+      		exes[j]=exes[j]-exes[j-1]
+      	}
+      	a = a+'+'+exes[i]+'x!/((x-'+i+')! '+i+'!)'
+      }
+      if (isNaN(exes[0])) {
+        alert('Please enter valid coordinates.');
+        return;
+      }
+      calculator.setExpression({id:'graph1', latex:'y='+a})
+      calculator.setExpression({id:'table1', type: 'table', columns: [
+    {
+      latex: 'x',
+      values: exesreal
+    },
+    {
+      latex: 'y',
+      values: yreal,
+    },]})
+    }
+  </script>
+</body>
+</html>
